@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Crud Events</string>
+    <string name="selecione_uma_data">Selecione uma data</string>
+    <string name="nome_do_evento">Nome do evento</string>
+    <string name="local">Local</string>
+    <string name="p_blico_estimado">Público estimado</string>
+    <string name="salvar">Salvar</string>
+</resources>
