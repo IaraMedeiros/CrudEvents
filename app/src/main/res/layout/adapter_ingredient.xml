@@ -31,13 +31,20 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtPreco"
+                android:id="@+id/txtQuantidadeEstoque"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Preco"
+                android:text="Quantidade de estoque"
                 android:textColor="#795548"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/txtUnidade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unidade"
+                android:textColor="#795548"
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout

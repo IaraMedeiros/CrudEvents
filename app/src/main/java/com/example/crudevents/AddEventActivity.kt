@@ -2,87 +2,107 @@ package com.example.crudevents
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.crudevents.events.Event
+import com.example.crudevents.events.EventProduct
+import com.example.crudevents.events.EventProductsAdapter
 import com.example.crudevents.events.EventViewModel
+import com.example.crudevents.product.ProductViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
-/**
- * Tela de Formulário para Adicionar ou Editar um evento.
- */
 class AddEventActivity : AppCompatActivity() {
 
     private val viewModel: EventViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels()
+    
+    private val eventProductsTemp = mutableListOf<EventProduct>()
+    private lateinit var adapter: EventProductsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_event)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val nome = findViewById<EditText>(R.id.editNome)
         val data = findViewById<EditText>(R.id.editData)
-        
-        // Configuração do Seletor de Data (Calendário)
-        data.setOnClickListener {
-            val calendario = Calendar.getInstance()
-            val dialog = DatePickerDialog(
-                this,
-                { _, ano, mes, dia ->
-                    data.setText("%02d/%02d/%04d".format(dia, mes + 1, ano))
-                },
-                calendario.get(Calendar.YEAR),
-                calendario.get(Calendar.MONTH),
-                calendario.get(Calendar.DAY_OF_MONTH)
-            )
-            dialog.show()
-        }
-        
         val local = findViewById<EditText>(R.id.editLocal)
         val publico = findViewById<EditText>(R.id.editPublico)
         val btnSalvar = findViewById<Button>(R.id.btnSalvar)
+        val recycler = findViewById<RecyclerView>(R.id.recyclerProdutosEvento)
+        
+        adapter = EventProductsAdapter(eventProductsTemp) { position ->
+            eventProductsTemp.removeAt(position)
+            adapter.notifyItemRemoved(position)
+        }
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.adapter = adapter
 
-        // Verificamos se recebemos um ID por Intent. 
-        // Se sim, significa que estamos EDITANDO, não criando.
+        productViewModel.allProducts.observe(this) { products ->
+            adapter.updateAvailableProducts(products)
+        }
+
+        data.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            DatePickerDialog(this, { _, ano, mes, dia ->
+                data.setText("%02d/%02d/%04d".format(dia, mes + 1, ano))
+            }, calendario.get(Calendar.YEAR), calendario.get(Calendar.MONTH), calendario.get(Calendar.DAY_OF_MONTH)).show()
+        }
+
         val eventId = intent.getIntExtra("EVENT_ID", -1)
         if (eventId != -1) {
             nome.setText(intent.getStringExtra("EVENT_NOME"))
             data.setText(intent.getStringExtra("EVENT_DATA"))
             local.setText(intent.getStringExtra("EVENT_LOCAL"))
             publico.setText(intent.getIntExtra("EVENT_PUBLICO", 0).toString())
-            btnSalvar.text = "Atualizar" // Muda o texto do botão
+            btnSalvar.text = "Atualizar Evento"
+            
+            viewModel.getProductsForEvent(eventId).observe(this) { items ->
+                if (eventProductsTemp.isEmpty()) {
+                    eventProductsTemp.addAll(items)
+                    adapter.notifyDataSetChanged()
+                }
+            }
+        }
+
+        findViewById<Button>(R.id.btnAdicionarProduto).setOnClickListener {
+            eventProductsTemp.add(EventProduct(eventId = if (eventId != -1) eventId else 0, productId = 0, quantidade = 0.0))
+            adapter.notifyItemInserted(eventProductsTemp.size - 1)
         }
 
         btnSalvar.setOnClickListener {
-            // Pegamos o texto da data e convertemos para o objeto LocalDate
+            currentFocus?.clearFocus()
+
             val dateStr = data.text.toString()
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-            val localDate = try {
-                LocalDate.parse(dateStr, formatter)
-            } catch (e: Exception) {
-                LocalDate.now() // Se falhar, usa a data de hoje
-            }
+            val localDate = try { LocalDate.parse(dateStr, formatter) } catch (e: Exception) { LocalDate.now() }
 
-            // Criamos o objeto Event com os dados dos campos
             val event = Event(
-                id = if (eventId != -1) eventId else 0, // Se for edição, mantém o ID original
+                id = if (eventId != -1) eventId else 0,
                 nome = nome.text.toString(),
                 data = localDate,
                 local = local.text.toString(),
                 publicoEstimado = publico.text.toString().toIntOrNull() ?: 0
             )
 
-            // Decide se deve Inserir Novo ou Atualizar Existente
-            if (eventId != -1) {
-                viewModel.update(event)
-            } else {
-                viewModel.insert(event)
-            }
-            
-            finish() // Fecha esta tela e volta para a MainActivity
+            viewModel.saveEventWithProducts(event, eventProductsTemp)
+            finish()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

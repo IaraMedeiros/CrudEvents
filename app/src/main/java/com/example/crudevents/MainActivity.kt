@@ -3,6 +3,7 @@ package com.example.crudevents
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.crudevents.events.Event
 import com.example.crudevents.events.EventViewModel
 import com.example.crudevents.events.EventsAdapter
+import com.example.crudevents.ingredients.IngredientsActivity
+import com.example.crudevents.product.ProductsActivity
 import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
@@ -27,14 +30,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 1. Inicializa as Views
         txtProximoEvento = findViewById(R.id.txtProximoEvento)
         txtProximoDescricao = findViewById(R.id.txtProximoDescricao)
         recyclerView = findViewById(R.id.recyclerViewEventos)
         
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // 2. Configura o Adapter
         adapter = EventsAdapter(
             onEdit = { event ->
                 val intent = Intent(this, AddEventActivity::class.java).apply {
@@ -55,14 +56,10 @@ class MainActivity : AppCompatActivity() {
         )
         recyclerView.adapter = adapter
 
-        // 3. Observa os dados separadamente (Padrão MVVM recomendado)
-        
-        // Observa a lista completa
         viewModel.allEvents.observe(this) { events ->
             adapter.updateEvents(events)
         }
 
-        // Observa especificamente o próximo evento (calculado no ViewModel)
         viewModel.proximoEvento.observe(this) { event ->
             if (event == null) {
                 txtProximoEvento.text = "Nenhum evento"
@@ -74,9 +71,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Botão para adicionar novo
         findViewById<View>(R.id.btnAddEvent).setOnClickListener {
             startActivity(Intent(this, AddEventActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnNavProducts).setOnClickListener {
+            startActivity(Intent(this, ProductsActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnNavIngredients).setOnClickListener {
+            startActivity(Intent(this, IngredientsActivity::class.java))
         }
     }
 

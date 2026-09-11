@@ -7,21 +7,29 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.crudevents.events.Event
 import com.example.crudevents.events.EventDao
+import com.example.crudevents.events.EventProduct
+import com.example.crudevents.events.EventProductDao
+import com.example.crudevents.ingredients.Ingredient
+import com.example.crudevents.ingredients.IngredientDao
+import com.example.crudevents.product.Product
+import com.example.crudevents.product.ProductDao
+import com.example.crudevents.recipeItem.RecipeItem
+import com.example.crudevents.recipeItem.RecipeItemDao
 
-/**
- * A classe de Banco de Dados principal.
- * Conecta as Entidades com os DAOs.
- */
-@Database(entities = [Event::class], version = 1, exportSchema = false)
-@TypeConverters(DateConverters::class) // Diz ao Room para usar nossos conversores de data
+@Database(
+    entities = [Event::class, Product::class, Ingredient::class, RecipeItem::class, EventProduct::class],
+    version = 5,
+    exportSchema = false
+)
+@TypeConverters(DateConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun eventDao(): EventDao
+    abstract fun productDao(): ProductDao
+    abstract fun ingredientDao(): IngredientDao
+    abstract fun recipeItemDao(): RecipeItemDao
+    abstract fun eventProductDao(): EventProductDao
 
     companion object {
-        /**
-         * Padrão Singleton: Garante que só exista UMA instância do banco aberta.
-         * Abrir múltiplas instâncias é pesado e pode corromper os dados.
-         */
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
@@ -32,7 +40,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "event_database"
                 )
-                    .fallbackToDestructiveMigration() // Se a versão mudar, apaga e recria (bom para dev)
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance

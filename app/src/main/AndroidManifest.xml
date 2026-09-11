@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CrudEvents">
         <activity android:name=".AddEventActivity" />
+        <activity android:name=".AddProductActivity" />
+        <activity android:name=".product.ProductsActivity" />
+        <activity android:name=".ingredients.IngredientsActivity" />
+        <activity android:name=".ingredients.AddIngredientActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
