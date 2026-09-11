@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.crudevents.R
 import com.example.crudevents.ingredients.IngredientViewModel
 import com.example.crudevents.product.Product
 import com.example.crudevents.product.ProductViewModel
@@ -26,7 +27,10 @@ class AddProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product)
 
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { finish() }
 
         val editNome = findViewById<EditText>(R.id.editNome)
         val editPreco = findViewById<EditText>(R.id.editPreco)
@@ -59,6 +63,10 @@ class AddProductActivity : AppCompatActivity() {
             val novoProduto = Product(nome = nome, preco = preco)
             
             productViewModel.saveProductWithRecipe(novoProduto, recipeItemsTemp)
+            finish()
+        }
+
+        findViewById<Button>(R.id.btnVoltar).setOnClickListener {
             finish()
         }
     }

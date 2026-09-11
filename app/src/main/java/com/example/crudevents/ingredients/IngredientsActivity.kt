@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.crudevents.R
 import com.example.crudevents.databinding.ActivityIngredientsBinding
 
 class IngredientsActivity : AppCompatActivity() {
@@ -20,7 +21,10 @@ class IngredientsActivity : AppCompatActivity() {
         binding = ActivityIngredientsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { finish() }
 
         adapter = IngredientsAdapter(
             onEdit = { ingredient ->

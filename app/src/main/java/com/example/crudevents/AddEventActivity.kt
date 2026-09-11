@@ -30,7 +30,10 @@ class AddEventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_event)
 
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { finish() }
 
         val nome = findViewById<EditText>(R.id.editNome)
         val data = findViewById<EditText>(R.id.editData)
@@ -59,6 +62,7 @@ class AddEventActivity : AppCompatActivity() {
 
         val eventId = intent.getIntExtra("EVENT_ID", -1)
         if (eventId != -1) {
+            title = "Editar Evento"
             nome.setText(intent.getStringExtra("EVENT_NOME"))
             data.setText(intent.getStringExtra("EVENT_DATA"))
             local.setText(intent.getStringExtra("EVENT_LOCAL"))
@@ -71,6 +75,8 @@ class AddEventActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
             }
+        } else {
+            title = "Novo Evento"
         }
 
         findViewById<Button>(R.id.btnAdicionarProduto).setOnClickListener {
@@ -94,6 +100,10 @@ class AddEventActivity : AppCompatActivity() {
             )
 
             viewModel.saveEventWithProducts(event, eventProductsTemp)
+            finish()
+        }
+
+        findViewById<Button>(R.id.btnVoltar).setOnClickListener {
             finish()
         }
     }

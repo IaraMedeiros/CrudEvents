@@ -16,7 +16,10 @@ class AddIngredientActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_ingredient)
 
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { finish() }
 
         val editNome = findViewById<EditText>(R.id.editNome)
         val editQtd = findViewById<EditText>(R.id.editQuantidade)
@@ -42,6 +45,10 @@ class AddIngredientActivity : AppCompatActivity() {
             if (id != -1) viewModel.update(ingredient)
             else viewModel.insert(ingredient)
 
+            finish()
+        }
+
+        findViewById<Button>(R.id.btnVoltar).setOnClickListener {
             finish()
         }
     }

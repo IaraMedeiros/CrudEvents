@@ -1,80 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF8F1">
+    android:orientation="vertical"
+    android:background="#FFF8F1"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FF9800"
+        app:titleTextColor="#FFFFFF"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="#FFFFFF" />
 
-        <TextView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Novo Evento"
-            android:textColor="#5D4037"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <EditText
-            android:id="@+id/editNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Nome do evento" />
+            <EditText
+                android:id="@+id/editNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome do evento" />
 
-        <EditText
-            android:id="@+id/editData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:hint="Data do evento" />
+            <EditText
+                android:id="@+id/editData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="Data do evento" />
 
-        <EditText
-            android:id="@+id/editLocal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Local do evento" />
+            <EditText
+                android:id="@+id/editLocal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Local do evento" />
 
-        <EditText
-            android:id="@+id/editPublico"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Público estimado"
-            android:inputType="number" />
+            <EditText
+                android:id="@+id/editPublico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Público estimado"
+                android:inputType="number" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Quantidade estimada de venda"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="#5D4037"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Produtos Necessários"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#5D4037"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerProdutosEvento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerProdutosEvento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
 
-        <Button
-            android:id="@+id/btnAdicionarProduto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="+ Adicionar Produto"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+            <Button
+                android:id="@+id/btnAdicionarProduto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ Adicionar Produto"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
-        <Button
-            android:id="@+id/btnSalvar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Salvar Evento"
-            android:backgroundTint="#FF9800"
-            android:textColor="#FFFFFF" />
+            <Button
+                android:id="@+id/btnSalvar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Salvar Evento"
+                android:backgroundTint="#FF9800"
+                android:textColor="#FFFFFF" />
 
-    </LinearLayout>
-</ScrollView>
+            <Button
+                android:id="@+id/btnVoltar"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Voltar"
+                android:textColor="#8D6E63" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
