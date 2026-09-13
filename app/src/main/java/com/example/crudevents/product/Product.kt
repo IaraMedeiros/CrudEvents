@@ -3,7 +3,7 @@ package com.example.crudevents.product
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "events")
+@Entity(tableName = "products")
 data class Product(
 
     @PrimaryKey(autoGenerate = true)
