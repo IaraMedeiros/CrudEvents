@@ -23,8 +23,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: EventsAdapter
     private lateinit var txtProximoEvento: TextView
     private lateinit var txtProximoDescricao: TextView
+    private lateinit var txtListaTitulo: TextView
+    private lateinit var btnToggleHistorico: Button
     
     private val viewModel: EventViewModel by viewModels()
+    private var mostrandoHistorico = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,8 @@ class MainActivity : AppCompatActivity() {
 
         txtProximoEvento = findViewById(R.id.txtProximoEvento)
         txtProximoDescricao = findViewById(R.id.txtProximoDescricao)
+        txtListaTitulo = findViewById(R.id.txtListaTitulo)
+        btnToggleHistorico = findViewById(R.id.btnToggleHistorico)
         recyclerView = findViewById(R.id.recyclerViewEventos)
         
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -41,10 +46,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, AddEventActivity::class.java).apply {
                     putExtra("EVENT_ID", event.id)
                     putExtra("EVENT_NOME", event.nome)
-                    putExtra(
-                        "EVENT_DATA",
-                        event.data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                    )
+                    putExtra("EVENT_DATA", event.data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                     putExtra("EVENT_LOCAL", event.local)
                     putExtra("EVENT_PUBLICO", event.publicoEstimado)
                 }
@@ -56,14 +58,27 @@ class MainActivity : AppCompatActivity() {
         )
         recyclerView.adapter = adapter
 
-        viewModel.allEvents.observe(this) { events ->
-            adapter.updateEvents(events)
+        // Alterna entre lista de Próximos e Histórico
+        btnToggleHistorico.setOnClickListener {
+            mostrandoHistorico = !mostrandoHistorico
+            atualizarInterfaceLista()
         }
 
+        // Observa a lista de futuros por padrão
+        viewModel.upcomingEvents.observe(this) { events ->
+            if (!mostrandoHistorico) adapter.updateEvents(events)
+        }
+
+        // Observa o histórico
+        viewModel.pastEvents.observe(this) { events ->
+            if (mostrandoHistorico) adapter.updateEvents(events)
+        }
+
+        // Observer do card de destaque (sempre mostra o próximo real)
         viewModel.proximoEvento.observe(this) { event ->
             if (event == null) {
-                txtProximoEvento.text = "Nenhum evento"
-                txtProximoDescricao.text = "Cadastre um novo evento no botão +"
+                txtProximoEvento.text = "Sem eventos futuros"
+                txtProximoDescricao.text = "Crie um evento com data de hoje ou maior"
             } else {
                 txtProximoEvento.text = event.nome
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
@@ -81,6 +96,20 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnNavIngredients).setOnClickListener {
             startActivity(Intent(this, IngredientsActivity::class.java))
+        }
+    }
+
+    private fun atualizarInterfaceLista() {
+        if (mostrandoHistorico) {
+            txtListaTitulo.text = "Histórico de Eventos"
+            btnToggleHistorico.text = "Ver Próximos"
+            // Força a atualização da lista com o que estiver no LiveData de passados
+            viewModel.pastEvents.value?.let { adapter.updateEvents(it) }
+        } else {
+            txtListaTitulo.text = "Próximos Compromissos"
+            btnToggleHistorico.text = "Ver Histórico"
+            // Força a atualização da lista com o que estiver no LiveData de futuros
+            viewModel.upcomingEvents.value?.let { adapter.updateEvents(it) }
         }
     }
 

@@ -18,7 +18,7 @@ import com.example.crudevents.recipeItem.RecipeItemDao
 
 @Database(
     entities = [Event::class, Product::class, Ingredient::class, RecipeItem::class, EventProduct::class],
-    version = 5,
+    version = 7,
     exportSchema = false
 )
 @TypeConverters(DateConverters::class)

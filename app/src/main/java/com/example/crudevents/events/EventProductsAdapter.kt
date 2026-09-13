@@ -46,21 +46,30 @@ class EventProductsAdapter(
 
         holder.binding.editQuantidade.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val valor = holder.binding.editQuantidade.text.toString().toDoubleOrNull() ?: 0.0
-                items[holder.adapterPosition] = items[holder.adapterPosition].copy(quantidade = valor)
+                val position = holder.bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val valor = holder.binding.editQuantidade.text.toString().toDoubleOrNull() ?: 0.0
+                    items[position] = items[position].copy(quantidade = valor)
+                }
             }
         }
 
         holder.binding.spinnerIngrediente.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
-                if (availableProducts.isNotEmpty()) {
-                    items[holder.adapterPosition] = items[holder.adapterPosition].copy(productId = availableProducts[pos].id)
+                val position = holder.bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION && availableProducts.isNotEmpty()) {
+                    items[position] = items[position].copy(productId = availableProducts[pos].id)
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        holder.binding.btnDelete.setOnClickListener { onDelete(holder.adapterPosition) }
+        holder.binding.btnDelete.setOnClickListener {
+            val position = holder.bindingAdapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                onDelete(position)
+            }
+        }
     }
 
     override fun getItemCount() = items.size

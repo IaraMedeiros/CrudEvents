@@ -56,16 +56,20 @@ class RecipesAdapter(
         // --- LISTENERS PARA SALVAR NA LISTA ORIGINAL DA ACTIVITY ---
 
         holder.binding.editQuantidade.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) { // Salva quando o usuário sai do campo
-                val valor = holder.binding.editQuantidade.text.toString().toDoubleOrNull() ?: 0.0
-                recipeItems[holder.adapterPosition] = recipeItems[holder.adapterPosition].copy(quantidade = valor)
+            if (!hasFocus) {
+                val position = holder.bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val valor = holder.binding.editQuantidade.text.toString().toDoubleOrNull() ?: 0.0
+                    recipeItems[position] = recipeItems[position].copy(quantidade = valor)
+                }
             }
         }
 
         holder.binding.spinnerIngrediente.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
-                if (allIngredients.isNotEmpty()) {
-                    recipeItems[holder.adapterPosition] = recipeItems[holder.adapterPosition].copy(ingredientId = allIngredients[pos].id)
+                val position = holder.bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION && allIngredients.isNotEmpty()) {
+                    recipeItems[position] = recipeItems[position].copy(ingredientId = allIngredients[pos].id)
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -73,12 +77,20 @@ class RecipesAdapter(
 
         holder.binding.spinnerUnidade.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
-                recipeItems[holder.adapterPosition] = recipeItems[holder.adapterPosition].copy(unidade = unidades[pos])
+                val position = holder.bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    recipeItems[position] = recipeItems[position].copy(unidade = unidades[pos])
+                }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        holder.binding.btnDelete.setOnClickListener { onDelete(holder.adapterPosition) }
+        holder.binding.btnDelete.setOnClickListener {
+            val position = holder.bindingAdapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                onDelete(position)
+            }
+        }
     }
 
     override fun getItemCount() = recipeItems.size
