@@ -1,0 +1,33 @@
+services:
+  crud-events-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crud-events-app
+    image: crud-events:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - gradle-cache:/app/.gradle
+    environment:
+      - GRADLE_USER_HOME=/app/.gradle
+    ports:
+      - "8080:8080"
+    networks:
+      - crud-events-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "test", "-d", "/app/app/build"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  gradle-cache:
+    driver: local
+
+networks:
+  crud-events-network:
+    driver: bridge
