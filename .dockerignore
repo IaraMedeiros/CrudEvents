@@ -1,0 +1,42 @@
+# Git files
+.git
+.gitignore
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# Build outputs
+build/
+.gradle/
+/local.properties
+captures/
+.externalNativeBuild
+.cxx
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+
+# Docker and compose
+docker-compose.override.yml
+.dockerignore
+Dockerfile
+
+# CI/CD
+.github/
+
+# Node modules (if any)
+node_modules/
+npm-debug.log
+
+# Kotlin
+.kotlin/
