@@ -31,3 +31,13 @@ jobs:
 
     - name: Run Unit Tests
       run: ./gradlew testDebug
+
+    - name: Discord notification
+      if: always() # Garante que a notificação seja enviada mesmo se o build falhar
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
+        title: "Status do Build - CI"
+        description: "Commit: ${{ github.event.head_commit.message }}"
+        username: GitHub Actions
