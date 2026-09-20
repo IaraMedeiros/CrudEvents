@@ -2,8 +2,10 @@ name: Android CD
 
 on:
   push:
+    branches: [ "main", "develop" ]
+  # Mantemos as tags também, caso você queira marcar uma versão específica
     tags:
-      - 'v*' # Dispara quando você cria uma tag tipo v1.0
+      - 'v*'
 
 jobs:
   deploy:
@@ -29,3 +31,13 @@ jobs:
       with:
         name: app-debug
         path: app/build/outputs/apk/debug/app-debug.apk
+
+    - name: Discord notification
+      if: always()
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
+        title: "Status do Deploy - CD"
+        description: "App compilado com sucesso! Versão: ${{ github.ref_name }}"
+        username: GitHub Actions
