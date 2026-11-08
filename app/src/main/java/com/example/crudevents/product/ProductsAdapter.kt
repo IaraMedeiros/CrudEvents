@@ -29,7 +29,14 @@ class ProductsAdapter(
         val product = products[position]
 
         holder.binding.txtNome.text = product.nome
-        holder.binding.txtPreco.text = product.preco.toString()
+        holder.binding.txtPreco.text = "R$ %.2f".format(product.preco)
+        
+        val icon = when {
+            product.nome.lowercase().contains("churros") -> "🍩"
+            product.nome.lowercase().contains("tapioca") -> "🥞"
+            else -> "🥖"
+        }
+        holder.binding.txtIconeProduto.text = icon
 
         holder.binding.btnEdit.setOnClickListener { onEdit(product) }
         holder.binding.btnDelete.setOnClickListener { onDelete(product) }

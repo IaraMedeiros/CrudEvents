@@ -16,6 +16,9 @@ interface EventProductDao {
     @Query("SELECT * FROM event_products WHERE eventId = :eventId")
     fun getProductsByEvent(eventId: Int): Flow<List<EventProduct>>
 
+    @Query("SELECT * FROM event_products")
+    fun getAllEventProducts(): Flow<List<EventProduct>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEventProduct(eventProduct: EventProduct)
 

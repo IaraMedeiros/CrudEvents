@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#E3F2FD"
+    android:background="@color/app_bg"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#2196F3"
-        app:titleTextColor="#FFFFFF"
+        android:background="@color/primary_brown"
+        app:titleTextColor="@color/white"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:navigationIconTint="#FFFFFF"
+        app:navigationIconTint="@color/white"
         app:title="Novo Produto" />
 
     <ScrollView
@@ -31,23 +31,25 @@
                 android:id="@+id/editNome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nome do produto"/>
+                android:hint="Nome do produto"
+                android:textColor="@color/text_primary"/>
 
             <EditText
                 android:id="@+id/editPreco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Preço"
-                android:inputType="numberDecimal"/>
+                android:hint="Preço (R$)"
+                android:inputType="numberDecimal"
+                android:textColor="@color/text_primary"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Ingredientes"
+                android:text="Ficha Técnica (Ingredientes)"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:textColor="#1565C0"/>
+                android:textColor="@color/text_primary"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerIngredientes"
@@ -59,8 +61,10 @@
                 android:id="@+id/btnAdicionarIngrediente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="+ Adicionar ingrediente"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                android:text="+ Adicionar Ingrediente"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="@color/accent_terracotta"
+                android:textColor="@color/accent_terracotta"/>
 
             <Button
                 android:id="@+id/btnSalvar"
@@ -68,15 +72,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Salvar Produto"
-                android:backgroundTint="#2196F3"
-                android:textColor="#FFFFFF"/>
+                android:backgroundTint="@color/accent_terracotta"
+                android:textColor="@color/white"/>
 
             <Button
                 android:id="@+id/btnVoltar"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Voltar" />
+                android:text="Voltar"
+                android:textColor="@color/text_secondary" />
 
         </LinearLayout>
     </ScrollView>

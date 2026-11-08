@@ -16,6 +16,7 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     private val eventProductDao = db.eventProductDao()
     
     val allEvents = eventDao.getAllEvents().asLiveData()
+    val allEventProducts = eventProductDao.getAllEventProducts().asLiveData()
 
     val upcomingEvents = allEvents.map { events ->
         val hoje = LocalDate.now()

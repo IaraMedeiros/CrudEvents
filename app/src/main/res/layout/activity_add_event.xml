@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFF8F1"
+    android:background="@color/app_bg"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#FF9800"
-        app:titleTextColor="#FFFFFF"
+        android:background="@color/primary_brown"
+        app:titleTextColor="@color/white"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:navigationIconTint="#FFFFFF" />
+        app:navigationIconTint="@color/white" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,36 +30,57 @@
                 android:id="@+id/editNome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nome do evento" />
+                android:hint="Nome do evento"
+                android:textColor="@color/text_primary" />
 
             <EditText
                 android:id="@+id/editData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:hint="Data do evento" />
+                android:hint="Data do evento"
+                android:textColor="@color/text_primary" />
 
             <EditText
                 android:id="@+id/editLocal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Local do evento" />
+                android:hint="Local do evento"
+                android:textColor="@color/text_primary" />
 
             <EditText
                 android:id="@+id/editPublico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Público estimado"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/text_primary" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
-                android:text="Produtos Necessários"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="#5D4037"/>
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Produtos Necessários"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_primary"/>
+
+                <Button
+                    android:id="@+id/btnSugerirIA"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="✨ Prever com IA"
+                    android:textColor="@color/accent_terracotta"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerProdutosEvento"
@@ -72,7 +93,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="+ Adicionar Produto"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="@color/accent_terracotta"
+                android:textColor="@color/accent_terracotta"/>
+
+            <Button
+                android:id="@+id/btnCalcularIngredientes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="🧮 Calcular Ingredientes e Lucro"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="@color/primary_brown"
+                android:textColor="@color/primary_brown"/>
 
             <Button
                 android:id="@+id/btnSalvar"
@@ -80,8 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Salvar Evento"
-                android:backgroundTint="#FF9800"
-                android:textColor="#FFFFFF" />
+                android:backgroundTint="@color/accent_terracotta"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btnVoltar"
@@ -89,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Voltar"
-                android:textColor="#8D6E63" />
+                android:textColor="@color/text_secondary" />
 
         </LinearLayout>
     </ScrollView>

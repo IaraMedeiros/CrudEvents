@@ -2,4 +2,25 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Gourmet Food Truck Palette (Inspired by Mockup UI) -->
+    <color name="app_bg">#F7F5F0</color>
+    <color name="card_bg">#FFFFFF</color>
+
+    <color name="primary_brown">#4A2810</color>
+    <color name="primary_brown_dark">#351C09</color>
+    <color name="accent_terracotta">#D86B27</color>
+    <color name="accent_terracotta_light">#FFF3EB</color>
+
+    <color name="text_primary">#2D1810</color>
+    <color name="text_secondary">#7A665A</color>
+    <color name="divider_color">#E8E2D9</color>
+
+    <!-- Status Badges -->
+    <color name="status_green_bg">#E8F5E9</color>
+    <color name="status_green_text">#2E7D32</color>
+    <color name="status_orange_bg">#FFF3E0</color>
+    <color name="status_orange_text">#D86B27</color>
+    <color name="status_red_bg">#FFEBEE</color>
+    <color name="status_red_text">#C62828</color>
 </resources>

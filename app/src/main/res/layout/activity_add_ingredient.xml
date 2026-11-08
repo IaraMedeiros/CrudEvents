@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F1F8E9"
+    android:background="@color/app_bg"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#4CAF50"
-        app:titleTextColor="#FFFFFF"
+        android:background="@color/primary_brown"
+        app:titleTextColor="@color/white"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:navigationIconTint="#FFFFFF"
+        app:navigationIconTint="@color/white"
         app:title="Novo Ingrediente" />
 
     <LinearLayout
@@ -28,7 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Nome do ingrediente"/>
+            android:hint="Nome do ingrediente"
+            android:textColor="@color/text_primary"/>
 
         <EditText
             android:id="@+id/editQuantidade"
@@ -36,14 +37,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="Quantidade em estoque"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"/>
 
         <EditText
             android:id="@+id/editUnidade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Unidade (ex: kg, g, L)"/>
+            android:hint="Unidade (ex: kg, g, L)"
+            android:textColor="@color/text_primary"/>
 
         <Button
             android:id="@+id/btnSalvar"
@@ -51,8 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Salvar Ingrediente"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF"/>
+            android:backgroundTint="@color/accent_terracotta"
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/btnVoltar"
@@ -60,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Voltar"
-            android:textColor="#388E3C" />
+            android:textColor="@color/text_secondary" />
 
     </LinearLayout>
 </LinearLayout>

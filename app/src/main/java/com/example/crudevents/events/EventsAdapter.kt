@@ -36,6 +36,25 @@ class EventsAdapter(
         holder.binding.txtLocal.text = event.local
         holder.binding.txtPublico.text = event.publicoEstimado.toString()
 
+        holder.binding.txtDiaBadge.text = "%02d".format(event.data.dayOfMonth)
+        val monthStr = when(event.data.monthValue) {
+            1 -> "JAN"; 2 -> "FEV"; 3 -> "MAR"; 4 -> "ABR"; 5 -> "MAI"; 6 -> "JUN"
+            7 -> "JUL"; 8 -> "AGO"; 9 -> "SET"; 10 -> "OUT"; 11 -> "NOV"; 12 -> "DEZ"
+            else -> "MÊS"
+        }
+        holder.binding.txtMesBadge.text = monthStr
+
+        val isUpcoming = event.data >= java.time.LocalDate.now()
+        holder.binding.txtTagStatus.text = if (isUpcoming) "Confirmado" else "Histórico"
+        val context = holder.itemView.context
+        if (isUpcoming) {
+            holder.binding.txtTagStatus.setTextColor(androidx.core.content.ContextCompat.getColor(context, com.example.crudevents.R.color.status_green_text))
+            holder.binding.txtTagStatus.setBackgroundColor(androidx.core.content.ContextCompat.getColor(context, com.example.crudevents.R.color.status_green_bg))
+        } else {
+            holder.binding.txtTagStatus.setTextColor(androidx.core.content.ContextCompat.getColor(context, com.example.crudevents.R.color.status_orange_text))
+            holder.binding.txtTagStatus.setBackgroundColor(androidx.core.content.ContextCompat.getColor(context, com.example.crudevents.R.color.status_orange_bg))
+        }
+
         holder.binding.btnEdit.setOnClickListener { onEdit(event) }
         holder.binding.btnDelete.setOnClickListener { onDelete(event) }
     }
